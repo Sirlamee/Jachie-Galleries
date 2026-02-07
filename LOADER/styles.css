@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #052339;
+    /* Blue background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: calc(50vh - 200px);
+    position: relative;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 300px;
+    height: 0;
+    /* Start with height 0 (invisible) */
+    overflow: hidden;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    animation: openDown 1s ease-out forwards;
+}
+
+#loader-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Animation to open the image from 0 height to full height */
+@keyframes openDown {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 400px;
+    }
+}
+
+
+.transition-overlay {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    background-color: white;
+    z-index: 9999;
+}

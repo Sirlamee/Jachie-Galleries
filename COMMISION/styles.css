@@ -1,0 +1,437 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #ffffff;
+    font-family: 'Creato Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.full-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    padding-top: 80px;
+    /* Space for navbar */
+}
+
+/* ==================== */
+/* Grid Layout          */
+/* ==================== */
+
+.two-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 80px);
+    position: relative;
+    padding-inline: 3rem;
+}
+
+.grid-item-1 {
+    padding-inline-end: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* z-index removed to allow h2 to layer above images */
+    position: relative;
+    /* overflow removed to allow h2 to extend beyond boundaries */
+}
+
+.grid-item-2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* z-index removed to allow h2 to layer above */
+    position: relative;
+    gap: 2rem;
+    overflow: hidden;
+    /* Keep overflow hidden only for images */
+}
+
+/* ==================== */
+/* Typography           */
+/* ==================== */
+
+.description h2 {
+    /* font-size: 7.5vw; */
+    font-family: 'Quantify', serif;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    position: relative;
+    top: 4rem;
+    /* left: 3rem; */
+    width: 200%;
+    z-index: 200;
+    color: #0B0C0D;
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out 0.2s forwards;
+}
+
+.desktop-only {
+    display: inline;
+}
+
+.description>p {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    margin-top: 7vw;
+    color: #0B0C0D;
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out 0.4s forwards;
+}
+
+.description h3 {
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-family: 'Quantify', serif;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #0B0C0D;
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out 0.6s forwards;
+}
+
+.description ol {
+    list-style: none;
+    counter-reset: item;
+    margin-bottom: 2rem;
+}
+
+.description ol li {
+    counter-increment: item;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 2.5rem;
+    /* Animation - stagger each li */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.description ol li:nth-child(1) {
+    animation: slideUp 0.6s ease-out 0.8s forwards;
+}
+
+.description ol li:nth-child(2) {
+    animation: slideUp 0.6s ease-out 0.9s forwards;
+}
+
+.description ol li:nth-child(3) {
+    animation: slideUp 0.6s ease-out 1.0s forwards;
+}
+
+.description ol li:nth-child(4) {
+    animation: slideUp 0.6s ease-out 1.1s forwards;
+}
+
+.description ol li:nth-child(5) {
+    animation: slideUp 0.6s ease-out 1.2s forwards;
+}
+
+.description ol li:nth-child(6) {
+    animation: slideUp 0.6s ease-out 1.3s forwards;
+}
+
+.description ol li:nth-child(7) {
+    animation: slideUp 0.6s ease-out 1.4s forwards;
+}
+
+.description ol li:nth-child(8) {
+    animation: slideUp 0.6s ease-out 1.5s forwards;
+}
+
+.description ol li:nth-child(9) {
+    animation: slideUp 0.6s ease-out 1.6s forwards;
+}
+
+.description ol li:nth-child(10) {
+    animation: slideUp 0.6s ease-out 1.7s forwards;
+}
+
+.description ol li::before {
+    content: counter(item) ".";
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    font-family: 'Quantify', serif;
+    color: #0B0C0D;
+}
+
+.description ol li p {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.6;
+    color: #0B0C0D;
+}
+
+.description ol li .bold {
+    font-weight: 600;
+    font-family: 'Quantify', serif;
+}
+
+/* ==================== */
+/* Contact Links        */
+/* ==================== */
+
+.contact-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    /* Animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out 1.8s forwards;
+}
+
+.whatsApp,
+.email {
+    padding: 12px 32px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.whatsApp {
+    background-color: #0B0C0D;
+    color: #fff;
+}
+
+.whatsApp:hover {
+    background-color: #2a2b2c;
+    transform: translateY(-2px);
+}
+
+.email {
+    background-color: #fff;
+    border: 2px solid #0B0C0D;
+    color: #0B0C0D;
+}
+
+.email:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+}
+
+/* ==================== */
+/* Images               */
+/* ==================== */
+
+.grid-image {
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+}
+
+Image Overlay
+.grid-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Dark overlay */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.grid-image::before:hover {
+    background: rgba(0, 0, 0, 0.4);
+    animation: revealDown 1.2s ease-out 0.3s forwards;
+}
+
+.grid-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Animation - Reveal from top to bottom */
+    clip-path: inset(0 0 100% 0);
+    animation: revealDown 1.2s ease-out 0.3s forwards;
+}
+
+.grid-image:nth-child(2) img {
+    animation-delay: 0.6s;
+    /* Second image reveals after first */
+}
+
+/* ==================== */
+/* Animations           */
+/* ==================== */
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes revealDown {
+    from {
+        clip-path: inset(0 0 100% 0);
+        /* Start: bottom hidden (top visible) */
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+        /* End: fully visible */
+    }
+}
+
+/* ==================== */
+/* Mobile Styles        */
+/* ==================== */
+
+@media (max-width: 768px) {
+    .full-container {
+        padding-top: 70px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .two-grid-container {
+        grid-template-columns: 1fr;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .grid-item-1 {
+        padding: 2rem 1.5rem;
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+    }
+
+    /* Background Images with Opacity */
+    .grid-item-1::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background-image: url('../Assets/boyLaugh.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.15;
+        z-index: -1;
+        /* Animation */
+        clip-path: inset(0 0 100% 0);
+        animation: revealDown 1.2s ease-out 0.3s forwards;
+    }
+
+    .grid-item-1::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background-image: url('../Assets/girlPraying.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.15;
+        z-index: -1;
+        /* Animation */
+        clip-path: inset(0 0 100% 0);
+        animation: revealDown 1.2s ease-out 0.6s forwards;
+    }
+
+    .grid-item-2 {
+        display: none;
+        /* Hide actual images on mobile */
+    }
+
+    .description h2 {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        font-size: clamp(2rem, 8vw, 3rem);
+        margin-bottom: 1.5rem;
+    }
+
+    .description>p {
+        margin-top: 0;
+        font-size: 1rem;
+    }
+
+    .description h3 {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+    }
+
+    .description ol li {
+        padding-left: 2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .description ol li p {
+        font-size: 0.95rem;
+    }
+
+    .contact-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .whatsApp,
+    .email {
+        width: 100%;
+    }
+}
+
+/* ==================== */
+/* Desktop Adjustments   */
+/* ==================== */
+
+@media (min-width: 769px) {
+    .description h2 {
+        font-size: 7.4vw;
+    }
+
+    .project-span {
+        color: #fff;
+    }
+}
+
+@media (min-width: 900px) {
+    .description h2 {
+        font-size: 7.8vw;
+    }
+}
+

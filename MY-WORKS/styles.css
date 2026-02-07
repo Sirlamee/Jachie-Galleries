@@ -1,0 +1,210 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+    /* scroll-behavior: smooth; */
+    overflow-x: hidden;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #ffffff;
+    font-family: 'Creato Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==================== */
+/* Section Styles       */
+/* ==================== */
+.section {
+    width: 100%;
+    max-width: 350px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: calc(50% - 175px);
+    overflow: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 50vh;
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+    clip-path: inset(0 0 100% 0);
+}
+
+.image-wrapper a {
+    display: block;
+    width: 100%;
+    height: 60vh;
+}
+
+.image-wrapper:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.section-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.section-content {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+.section-content h2 {
+    color: #052339;
+    font-size: 2rem;
+    font-family: 'Quantify', serif;
+    text-align: center;
+}
+
+.section-content p {
+    color: #052339;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* ==================== */
+/* Animation Classes    */
+/* ==================== */
+.image-wrapper.animate {
+    animation: openDown 1s ease-out forwards;
+}
+
+.section-content.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes openDown {
+    from {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* Back to Top Button Styles */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    border: #000 1px solid;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px);
+}
+
+.back-to-top span {
+    font-size: 12px;
+    line-height: 1;
+}
+
+
+/* ==================== */
+/* Responsive Design    */
+/* ==================== */
+
+
+@media (min-width: 769px) {
+    .section {
+        width: 50vh;
+        max-width: 500px;
+        left: calc(50% - 25vh);
+
+    }
+
+    .image-wrapper {
+        max-width: 600px;
+        height: 60vh;
+        z-index: 1;
+    }
+
+
+
+
+}
+
+
+
+@media (max-width: 768px) {
+
+    /* Image wrapper mobile */
+    .image-wrapper {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .section-image {
+        height: 400px;
+    }
+
+    @keyframes openDown {
+        from {
+            height: 0;
+        }
+
+        to {
+            height: 400px;
+        }
+    }
+
+    .section-text {
+        font-size: 1.5rem;
+        padding: 0 20px;
+    }
+
+}

@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Quantify';
+    src: url('fonts/Quantify.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Creato Display';
+    src: url('fonts/CreatoDisplay-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Creato Display Bold';
+    src: url('fonts/CreatoDisplay-Bold.otf') format('opentype');
+}
