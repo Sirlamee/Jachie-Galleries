@@ -87,23 +87,46 @@ a {
 .page-container {
     position: relative;
     text-align: center;
-    overflow: hidden;
-    height: 100vh;
     width: 100vw;
+}
+
+/* Desktop only - fixed height and hidden overflow for scroll hijacking */
+@media (min-width: 769px) {
+    .page-container {
+        overflow: hidden;
+        height: 100vh;
+    }
 }
 
 .section-container {
     position: relative;
     width: 100%;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
+}
+
+/* Desktop only - transform for scroll hijacking */
+@media (min-width: 769px) {
+    .section-container {
+        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+    }
 }
 
 
 section {
     height: auto;
+    min-height: 100vh;
     width: 100vw;
     overflow-x: hidden;
+    position: relative;
+    display: block;
+}
+
+/* Desktop only - fixed 100vh sections for scroll hijacking */
+@media (min-width: 769px) {
+    section {
+        height: 100vh;
+        min-height: auto;
+    }
 }
 
 .hero-section {
@@ -198,13 +221,19 @@ section {
 /* Second Section */
 .second-section {
     position: relative;
-    height: 100vh;
     width: 100%;
     background: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+}
+
+/* Desktop only - fixed height */
+@media (min-width: 769px) {
+    .second-section {
+        height: 100vh;
+    }
 }
 
 .marquee-container {
@@ -274,14 +303,13 @@ section {
 .second-section .text-content {
     position: relative;
     z-index: 10;
-    width: 80%;
     max-width: 1200px;
     padding: 1rem;
     text-align: center;
 }
 
 .animated-text {
-    font-size: clamp(1.2rem, 2.5vw, 32px);
+    font-size: clamp(1.5rem, 2.5vw, 32px);
     line-height: 1.2;
 }
 
@@ -297,20 +325,33 @@ section {
 /* Third Section */
 .third-section {
     position: relative;
-    height: 100vh;
-    min-height: 100vh;
-    max-height: 100vh;
     width: 100%;
     overflow: hidden;
 }
 
+/* Desktop only - fixed height */
+@media (min-width: 769px) {
+    .third-section {
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+}
+
 .vision-pillars-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
+    position: relative;
     width: 100%;
-    overflow: hidden;
+}
+
+/* Desktop only - absolute positioning */
+@media (min-width: 769px) {
+    .vision-pillars-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
 }
 
 .main-heading {
@@ -395,7 +436,7 @@ section {
 .animated-image-container {
     height: 0;
     overflow: hidden;
-    clip-path: inset(0 0 100% 0);
+    /* clip-path: inset(0 0 100% 0); */
 }
 
 .animated-image-container.animate {
@@ -832,6 +873,7 @@ section {
 
 .grid-container-1 {
     padding-inline: 2rem;
+    margin-bottom: 4rem;
 }
 
 .grid-container-2 {
@@ -1037,6 +1079,10 @@ div.FAQ-item-content.expanded p {
         word-wrap: break-word;
     }
 
+    .second-section .text-content {
+        width: 80%;
+    }
+
     .third-section {
         position: relative;
         height: 100vh;
@@ -1080,6 +1126,13 @@ div.FAQ-item-content.expanded p {
         height: 60vh;
         z-index: 1;
     }
+
+    .animated-image-container {
+        /* height: 0; */
+        overflow: hidden;
+        clip-path: inset(0 0 100% 0);
+    }
+
 
     .third-section .text-content {
         position: absolute;
@@ -1241,34 +1294,102 @@ div.FAQ-item-content.expanded p {
         background-color: rgba(0, 0, 0, 0.05);
     }
 
-    /* Third Section Mobile */
+    .marquee-image {
+        width: 50vw;
+        height: 50vw;
+        filter: grayscale(50%);
+    }
+
+
+    /* Marquee Mobile Adjustments */
+    .marquee-image:nth-child(1) {
+        --start-left: 10%;
+        top: 10%;
+        left: 5%;
+        transform: rotate(-11.6deg);
+        animation: marqueeLeft 200s linear infinite;
+    }
+
+    .marquee-image:nth-child(2) {
+        --start-left: 70%;
+        top: 25%;
+        left: 70%;
+        transform: rotate(-28deg);
+        animation: marqueeLeft 180s linear infinite;
+    }
+
+    .marquee-image:nth-child(3) {
+        --start-left: 40%;
+        bottom: 15%;
+        left: 40%;
+        transform: rotate(4.7deg);
+        animation: marqueeLeft 150s linear infinite;
+    }
+
+    .marquee-image:nth-child(4) {
+        --start-left: -15%;
+        bottom: 20%;
+        left: -15%;
+        transform: rotate(23.11deg);
+        animation: marqueeLeft 250s linear infinite;
+    }
+
+
+    /* Second Section Mobile - Center Text Content */
+    .second-section .text-content {
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, calc(50vh - 50%)) !important;
+    }
+
+    /* Third Section Mobile - Stacked Layout (No Swipe) */
 
     .third-section {
         position: relative;
-        overflow: hidden;
+        overflow: visible;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 3rem 1rem 5rem 1rem !important;
+        margin-bottom: 0;
+    }
+
+    .vision-pillars-container {
+        position: relative;
+        height: auto;
+        padding: 1rem 0 3rem 0;
     }
 
     .subsections-container {
-        display: flex !important;
-        overflow: hidden !important;
-        touch-action: pan-x;
-        -webkit-overflow-scrolling: touch;
+        display: block !important;
+        overflow: visible !important;
+        position: relative;
+        height: auto;
+        padding-top: 0;
     }
 
     .subsection {
         min-width: 100% !important;
         flex-shrink: 0 !important;
+        margin-bottom: 4rem;
+        opacity: 1 !important;
+        display: block !important;
+        position: relative !important;
+        transform: none !important;
     }
 
-    /* Dots indicator styling (created by JS) */
-    .vision-dots-mobile {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 10;
+    .subsection:last-child {
+        margin-bottom: 3rem;
+    }
+
+    /* Main heading spacing */
+    .main-heading {
+        margin-bottom: 2rem !important;
+        position: relative;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
     .image-container {
@@ -1278,7 +1399,6 @@ div.FAQ-item-content.expanded p {
 
 
     .text-content {
-        width: 85%;
         max-width: none;
         padding: 1.5rem;
     }
@@ -1317,18 +1437,77 @@ div.FAQ-item-content.expanded p {
         padding: 2rem 1rem;
     }
 
-    /* Remove fixed heights */
+    /* Center FAQ content paragraphs on mobile */
+    div.FAQ-item-content p {
+        text-align: center;
+        padding: 10px 1rem;
+    }
+
+    /* Center grouped grid items (nav and social links) on mobile */
+    .grouped {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-social-links {
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Remove fixed heights for most sections */
     .second-section,
-    .fourth-section,
     .fifth-section {
         height: auto !important;
         min-height: 100vh;
     }
 
+    /* Fourth section (carousel) needs fixed height */
+    .fourth-section {
+        height: 100vh !important;
+        min-height: 100vh;
+    }
+
+    .carousel-container {
+        height: 100vh;
+    }
+
     /* Ensure content is accessible */
     .section {
         padding: 2rem 1rem;
+        clear: both;
+        display: block;
+        position: relative;
     }
+
+    /* Override section padding for specific sections */
+    .fourth-section,
+    .hero-section {
+        padding: 0 !important;
+    }
+
+    /* Add clear separation between sections */
+    .third-section::after {
+        content: '';
+        display: block;
+        clear: both;
+        height: 0;
+    }
+
+    .grid-container-1 .grid-item-1 h1,
+    .grid-container-2 .grid-item-2 h1 {
+        font-size: clamp(3rem, 8vh, 100px);
+        font-weight: 700;
+        font-family: 'Quantify', sans-serif;
+        letter-spacing: -1px;
+        text-align: center;
+    }
+
+    .footer-text {
+        text-align: center;
+    }
+
+
 
 
 }
