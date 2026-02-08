@@ -1124,6 +1124,29 @@ div.FAQ-item-content.expanded p {
 }
 
 @media (max-width: 768px) {
+
+    html,
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        scroll-behavior: smooth;
+    }
+
+    .section-container {
+        transform: none !important;
+        height: auto !important;
+    }
+
+    .section {
+        position: relative !important;
+        height: auto !important;
+        min-height: 100vh;
+    }
+
+    .hero-section {
+        height: 100vh;
+    }
+
     .hamburger-menu {
         display: block;
         cursor: pointer;
@@ -1220,6 +1243,34 @@ div.FAQ-item-content.expanded p {
 
     /* Third Section Mobile */
 
+    .third-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .subsections-container {
+        display: flex !important;
+        overflow: hidden !important;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .subsection {
+        min-width: 100% !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Dots indicator styling (created by JS) */
+    .vision-dots-mobile {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+    }
+
     .image-container {
         width: 80vw;
         height: 400px;
@@ -1232,10 +1283,52 @@ div.FAQ-item-content.expanded p {
         padding: 1.5rem;
     }
 
-    /* Sixth Section Mobile - Make it taller to accommodate all content */
-    .sixth-section {
-        height: 200vh;
-        min-height: 200vh;
+    /* ==========================================
+   GALLERY - Mobile Progressive Reveal
+   ========================================== */
+
+    .image-item {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
     }
+
+    .image-item.reveal-mobile {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Override desktop reveal classes on mobile */
+    .image-item.hidden {
+        opacity: 0;
+    }
+
+    /* ==========================================
+   SIXTH SECTION - Mobile Auto Height
+   ========================================== */
+
+    .sixth-section {
+        height: auto !important;
+        min-height: 100vh;
+        transform: none !important;
+    }
+
+    .contact-container {
+        padding: 2rem 1rem;
+    }
+
+    /* Remove fixed heights */
+    .second-section,
+    .fourth-section,
+    .fifth-section {
+        height: auto !important;
+        min-height: 100vh;
+    }
+
+    /* Ensure content is accessible */
+    .section {
+        padding: 2rem 1rem;
+    }
+
 
 }
