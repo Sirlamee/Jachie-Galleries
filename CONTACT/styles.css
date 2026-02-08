@@ -510,11 +510,12 @@ a {
     .section-2 {
         padding: 3rem 1.5rem;
         gap: 3rem;
+        text-align: center;
     }
 
     .section-2 h3 {
         font-size: clamp(1.5rem, 6vw, 2rem);
-        text-align: left;
+        text-align: center;
     }
 
     .rotating-images {
