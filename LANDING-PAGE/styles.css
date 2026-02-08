@@ -149,6 +149,10 @@ section {
     background: url('../Images/hero-background.jpg') no-repeat center center/cover;
     z-index: -1;
     filter: brightness(0.7);
+
+    /* iOS video fixes */
+    object-fit: cover;
+    -webkit-transform: translate(-50%, -50%);
 }
 
 .hero-overlay {

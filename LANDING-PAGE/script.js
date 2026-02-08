@@ -460,3 +460,51 @@ document.addEventListener('DOMContentLoaded', () => {
 window.updateNavbarVisibility = (currentSection) => {
     NavbarController.update(currentSection);
 };
+
+
+// ==========================================
+// FORCE VIDEO AUTOPLAY (iOS/Safari Fix)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('.hero-background');
+    
+    if (video) {
+        // Try to play immediately
+        const playPromise = video.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('✅ Video autoplay successful');
+            }).catch(error => {
+                console.log('⚠️ Autoplay blocked, trying fallback...');
+                
+                // Fallback: Play on any user interaction
+                const playOnInteraction = () => {
+                    video.play().then(() => {
+                        console.log('✅ Video playing after user interaction');
+                        // Remove listeners after successful play
+                        document.removeEventListener('touchstart', playOnInteraction);
+                        document.removeEventListener('click', playOnInteraction);
+                        document.removeEventListener('scroll', playOnInteraction);
+                    });
+                };
+                
+                // Listen for any user interaction
+                document.addEventListener('touchstart', playOnInteraction, { once: true });
+                document.addEventListener('click', playOnInteraction, { once: true });
+                document.addEventListener('scroll', playOnInteraction, { once: true });
+            });
+        }
+        
+        // Additional iOS fix: Reload video source
+        video.load();
+    }
+});
+
+// Alternative: Play on page visibility change (when user returns to tab)
+document.addEventListener('visibilitychange', () => {
+    const video = document.querySelector('.hero-background');
+    if (video && !document.hidden) {
+        video.play().catch(() => {});
+    }
+});
