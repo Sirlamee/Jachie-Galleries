@@ -1,12 +1,4 @@
 // ==========================================
-// MOBILE DETECTION
-// ==========================================
-const isMobile = () => {
-    return window.matchMedia('(max-width: 768px)').matches || 
-           ('ontouchstart' in window && window.innerWidth <= 768);
-};
-
-// ==========================================
 // SCROLL HIJACKING & SECTION SNAPPING SYSTEM
 // ==========================================
 
@@ -568,150 +560,14 @@ class PerformanceOptimizer {
 }
 
 // ==========================================
-// MOBILE ANIMATION CONTROLLER (No Scroll Hijacking)
-// ==========================================
-
-class MobileAnimationController {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        this.setupIntersectionObservers();
-        this.setupHorizontalCardSwipe();
-        this.showSection2Texts();
-        this.loadSection4Background();
-    }
-
-    // Show both texts in Section 2 on mobile
-    showSection2Texts() {
-        const fadeInText = document.querySelector('.fade-in-text');
-        const showAfterScroll = document.querySelector('.show-after-scroll');
-        
-        if (fadeInText) {
-            fadeInText.classList.add('visible');
-        }
-        if (showAfterScroll) {
-            showAfterScroll.classList.add('visible');
-            showAfterScroll.classList.add('slide-in');
-        }
-    }
-
-    // Load Section 4 background immediately
-    loadSection4Background() {
-        const section4 = document.querySelector('.section-4');
-        if (section4) {
-            section4.classList.add('reveal');
-        }
-    }
-
-    // Setup scroll-triggered animations using IntersectionObserver
-    setupIntersectionObservers() {
-        const observerOptions = {
-            threshold: 0.3,
-            rootMargin: '0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all animatable elements
-        const animatableElements = document.querySelectorAll(
-            '.image-container-1, .image-container-2, .image-container-3, ' +
-            '.scrollX-card, .section-3 .heading h1'
-        );
-
-        animatableElements.forEach(el => observer.observe(el));
-
-        // Animated text observer
-        const textObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const spans = entry.target.querySelectorAll('span');
-                    spans.forEach((span, index) => {
-                        setTimeout(() => {
-                            span.classList.add('revealed');
-                        }, index * 30);
-                    });
-                    textObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        const animatedTexts = document.querySelectorAll('.animated-text');
-        animatedTexts.forEach(text => {
-            const content = text.textContent;
-            text.innerHTML = '';
-            
-            for (let i = 0; i < content.length; i++) {
-                const span = document.createElement('span');
-                span.textContent = content[i];
-                if (content[i] === ' ') {
-                    span.style.width = '0.25em';
-                    span.innerHTML = '&nbsp;';
-                }
-                text.appendChild(span);
-            }
-            
-            textObserver.observe(text);
-        });
-    }
-
-    // Enable horizontal swipe for cards on mobile
-    setupHorizontalCardSwipe() {
-        const cardContainer = document.querySelector('.scrollX-card-container');
-        if (!cardContainer) return;
-
-        let startX = 0;
-        let scrollLeft = 0;
-        let isDown = false;
-
-        cardContainer.addEventListener('touchstart', (e) => {
-            isDown = true;
-            startX = e.touches[0].pageX - cardContainer.offsetLeft;
-            scrollLeft = cardContainer.scrollLeft;
-        }, { passive: true });
-
-        cardContainer.addEventListener('touchend', () => {
-            isDown = false;
-        }, { passive: true });
-
-        cardContainer.addEventListener('touchmove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.touches[0].pageX - cardContainer.offsetLeft;
-            const walk = (x - startX) * 2;
-            cardContainer.scrollLeft = scrollLeft - walk;
-        }, { passive: false });
-
-        // Enable smooth scrolling for card container
-        cardContainer.style.overflowX = 'auto';
-        cardContainer.style.scrollBehavior = 'smooth';
-        cardContainer.style.webkitOverflowScrolling = 'touch';
-    }
-}
-
-// ==========================================
 // INITIALIZE ALL SYSTEMS
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (isMobile()) {
-        // Mobile: Use simple animation controller without scroll hijacking
-        new MobileAnimationController();
-        console.log('📱 Mobile Animations Initialized - Sustainable Art House');
-    } else {
-        // Desktop: Use full scroll hijacking system
-        new ScrollHijacker();
-        console.log('🖥️ Desktop Scroll Hijacking Initialized - Sustainable Art House');
-    }
+    // Initialize scroll hijacker (main controller)
+    new ScrollHijacker();
     
-    // Initialize performance optimizer for both
+    // Initialize performance optimizer
     new PerformanceOptimizer();
 
     // Add animated-text class to section 4 h3
@@ -719,6 +575,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (section4H3) {
         section4H3.classList.add('animated-text');
     }
+
+    console.log('🎨 Scroll Snapping + Hijacking Initialized - Sustainable Art House');
 });
 
 // ==========================================

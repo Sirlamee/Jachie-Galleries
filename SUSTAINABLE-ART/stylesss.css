@@ -6,27 +6,8 @@
 
 html {
     overflow-x: hidden;
+    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-}
-
-/* Enable scroll-snap only on desktop */
-@media (min-width: 769px) {
-    html {
-        scroll-snap-type: y mandatory;
-    }
-
-    .section {
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-    }
-}
-
-/* Disable smooth scroll on mobile */
-@media (max-width: 768px) {
-    html {
-        scroll-snap-type: none;
-        scroll-behavior: auto;
-    }
 }
 
 body {
@@ -55,6 +36,8 @@ a {
     overflow: hidden;
     position: relative;
     padding-inline: 2rem;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 /* ==================== */
@@ -123,7 +106,6 @@ a {
     from {
         clip-path: inset(0 0 100% 0);
     }
-
     to {
         clip-path: inset(0 0 0 0);
     }
@@ -144,7 +126,6 @@ a {
         opacity: 0;
         transform: translateY(40px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -191,7 +172,6 @@ a {
     from {
         clip-path: inset(0 100% 0 0);
     }
-
     to {
         clip-path: inset(0 0 0 0);
     }
@@ -232,8 +212,7 @@ a {
     transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.section-2 .text-container .show-after-scroll.slide-in,
-.section-2 .text-container .fade-in-text.slide-in {
+.section-2 .text-container .show-after-scroll.slide-in {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
@@ -555,7 +534,6 @@ a {
 @media (max-width: 768px) {
     .section {
         padding-inline: 1rem;
-        scroll-snap-align: none;
     }
 
     /* Section 1 - Mobile */
@@ -592,76 +570,21 @@ a {
         text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
     }
 
-    /* Section 2 - Mobile: Stack both texts */
-    .section-2 {
-        height: auto;
-        min-height: 100vh;
-    }
-
+    /* Section 2 - Mobile */
     .section-2 .image-container-3 {
         width: 85vw;
         height: 35vh;
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin: 2rem auto;
     }
 
     .section-2 .text-container {
-        position: relative;
-        top: auto;
-        width: 90%;
-        padding: 1.5rem;
-        margin: 2rem auto;
+        top: 52vh;
+        padding: 0 1.5rem;
     }
 
-    .section-2 .text-container h3 {
-        position: relative;
-        transform: none;
-        margin-bottom: 2rem;
-        opacity: 1;
-    }
-
-    .section-2 .text-container .show-after-scroll {
-        position: relative;
-        transform: none;
-        opacity: 1;
-    }
-
-    .section-2 .text-container .fade-in-text {
-        transform: translateX(-50%) translateY(0px);
-        transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-    }
-
-
-    /* Section 3 - Mobile: Enable horizontal scroll */
-    .section-3 {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .section-3 .scrollX-card-container {
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        /* Firefox */
-        -ms-overflow-style: none;
-        /* IE/Edge */
-        padding-bottom: 1rem;
-    }
-
-    .section-3 .scrollX-card-container::-webkit-scrollbar {
-        display: none;
-        /* Chrome/Safari */
-    }
-
+    /* Section 3 - Mobile */
     .scrollX-card {
-        min-width: 85vw;
-        height: 400px;
-        scroll-snap-align: center;
+        min-width: 50vw;
+        height: 350px;
     }
 
     /* Section 4 - Mobile */
