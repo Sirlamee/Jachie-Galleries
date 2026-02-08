@@ -518,7 +518,7 @@ section {
 }
 
 .static-content a::after {
-    content: url('../Assets/link.svg');
+    content: url('../Assets/white-link.svg');
     position: relative;
     padding-inline: 1rem;
     top: 0;
