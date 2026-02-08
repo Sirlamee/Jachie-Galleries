@@ -106,7 +106,6 @@ a {
 
 .description h3 {
     font-size: clamp(1.3rem, 2vw, 1.8rem);
-    font-family: 'Quantify', serif;
     font-weight: 600;
     margin-bottom: 1.5rem;
     color: #0B0C0D;
@@ -189,7 +188,6 @@ a {
 
 .description ol li .bold {
     font-weight: 600;
-    font-family: 'Quantify', serif;
 }
 
 /* ==================== */
@@ -431,7 +429,7 @@ Image Overlay
 
 @media (min-width: 900px) {
     .description h2 {
-        font-size: 7.8vw;
+        font-size: 7.7vw;
     }
 }
 

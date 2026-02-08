@@ -296,7 +296,6 @@ a {
 
 .contact-infos h3 {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
-    font-family: 'Quantify', serif;
     font-weight: 600;
     color: #0B0C0D;
     letter-spacing: 0.5px;
@@ -500,7 +499,7 @@ a {
 @media (max-width: 768px) {
     .section-1 {
         height: 100vh;
-        padding-top: 70px;
+        /* padding-top: 70px; */
     }
 
     .section-1 .image-container {
