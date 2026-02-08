@@ -8,38 +8,48 @@ const images = [
 ];
 
 const loaderImage = document.getElementById('loader-image');
+const transitionOverlay = document.querySelector('.transition-overlay');
 
-// Create GSAP timeline
-const tl = gsap.timeline({ paused: true });
+// Animation function
+function runImageSequence() {
+  let currentIndex = 1; // Start from 1 since first image is already visible
+  const delay = 200; // 0.2s in milliseconds
 
-// Loop through images and add animations
-images.forEach((img, index) => {
-  if (index === 0) return; // first image already visible
-
-  // Show previous image for a bit, then swap instantly
-  tl.to({}, { duration: 0.2 });
-
-  tl.call(() => {
-    loaderImage.src = img;
-  });
-});
-
-// Hold the last image for a moment (1 second)
-tl.to({}, { duration: 1 });
-
-// After last image → expand white overlay from bottom to top
-tl.to(".transition-overlay", {
-  height: "100%",
-  duration: 0.8,
-  ease: "power2.inOut",
-  onComplete: () => {
-    window.location.href = '../LANDING-PAGE/index.html';
+  function showNextImage() {
+    if (currentIndex < images.length) {
+      // Wait for delay, then change image
+      setTimeout(() => {
+        loaderImage.src = images[currentIndex];
+        currentIndex++;
+        showNextImage(); // Recursively call for next image
+      }, delay);
+    } else {
+      // All images shown, hold last image for 1 second
+      setTimeout(() => {
+        expandOverlay();
+      }, 1000);
+    }
   }
-});
 
-// Start animation after page load
+  showNextImage();
+}
+
+// Expand overlay animation
+function expandOverlay() {
+  if (!transitionOverlay) return;
+  
+  transitionOverlay.style.transition = 'height 0.8s cubic-bezier(0.76, 0, 0.24, 1)';
+  transitionOverlay.style.height = '100%';
+
+  // Navigate after animation completes
+  setTimeout(() => {
+    window.location.href = '../LANDING-PAGE/index.html';
+  }, 800); // 0.8s animation duration
+}
+
+// Start animation after page load with 2 second delay
 window.addEventListener('load', () => {
-  gsap.delayedCall(2, () => {
-    tl.play();
-  });
+  setTimeout(() => {
+    runImageSequence();
+  }, 2000); // 2 second delay
 });
