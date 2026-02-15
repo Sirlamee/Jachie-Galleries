@@ -239,267 +239,246 @@ class ScrollHijacker {
             } else if (direction === 'up' && this.currentSection > 1) {
                 this.scrollToSection(this.currentSection - 1);
             }
-        });
+        }, { passive: true });
     }
 
     // ==========================================
-    // SMOOTH SCROLL TO SECTION
+    // SCROLLING TO TARGET SECTION
     // ==========================================
-    scrollToSection(sectionNumber) {
-        if (this.isAnimating || !this.canScroll) return;
+    scrollToSection(targetSection) {
+        if (targetSection === this.currentSection || this.isAnimating) return;
         
         this.isAnimating = true;
         this.canScroll = false;
+
+        const targetElement = this.sections[targetSection];
         
-        const targetSection = this.sections[sectionNumber];
-        if (!targetSection) {
-            this.isAnimating = false;
-            this.canScroll = true;
-            return;
+        if (targetElement) {
+            targetElement.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            setTimeout(() => {
+                this.currentSection = targetSection;
+                this.isAnimating = false;
+                
+                setTimeout(() => {
+                    this.canScroll = true;
+                }, 100);
+
+                // Trigger animations for the new section
+                if (targetSection === 2) {
+                    this.triggerSection2Animations();
+                } else if (targetSection === 3) {
+                    this.triggerSection3Animations();
+                } else if (targetSection === 4) {
+                    this.triggerSection4Animations();
+                }
+            }, 800);
         }
-
-        const targetY = targetSection.offsetTop;
-        
-        window.scrollTo({
-            top: targetY,
-            behavior: 'smooth'
-        });
-
-        this.currentSection = sectionNumber;
-
-        // Trigger animations for the target section
-        setTimeout(() => {
-            if (sectionNumber === 2) {
-                this.triggerSection2Animations();
-            } else if (sectionNumber === 3) {
-                this.triggerSection3Animations();
-            } else if (sectionNumber === 4) {
-                this.triggerSection4Animations();
-            }
-        }, 300);
-
-        // Re-enable scrolling
-        setTimeout(() => {
-            this.isAnimating = false;
-            this.canScroll = true;
-        }, 1000);
     }
 
     // ==========================================
-    // SECTION 2: Setup, Animations, and Transitions
+    // SECTION 2: Setup and Text Transition
     // ==========================================
     setupSection2Elements() {
-        this.imageContainer3 = this.sections[2]?.querySelector('.image-container-3');
         this.fadeInText = this.sections[2]?.querySelector('.fade-in-text');
         this.showAfterScroll = this.sections[2]?.querySelector('.show-after-scroll');
     }
 
     triggerSection2Animations() {
-        if (this.imageContainer3 && !this.imageContainer3.classList.contains('reveal')) {
-            this.imageContainer3.classList.add('reveal');
-            
+        const imageContainer3 = this.sections[2]?.querySelector('.image-container-3');
+        
+        if (imageContainer3) {
             setTimeout(() => {
-                if (this.fadeInText) {
-                    this.fadeInText.classList.add('visible');
-                }
-            }, 600);
-        } else {
-            // If image is already revealed, just show the first text immediately
-            if (this.fadeInText && !this.section2TextTransitioned) {
+                imageContainer3.classList.add('reveal');
+            }, 200);
+        }
+
+        // Show first text immediately
+        if (this.fadeInText) {
+            setTimeout(() => {
                 this.fadeInText.classList.add('visible');
-            }
+            }, 800);
         }
     }
 
     handleSection2TextTransition() {
-        if (this.isAnimating) return;
-        
-        this.isAnimating = true;
+        if (this.section2TextTransitioned) return;
+
         this.canScroll = false;
-
-        // Fade out first text
+        
         if (this.fadeInText) {
-            this.fadeInText.classList.remove('visible');
+            this.fadeInText.classList.add('slide-in');
         }
-
-        // Slide in second text to same position
-        if (this.showAfterScroll) {
-            setTimeout(() => {
+        
+        setTimeout(() => {
+            if (this.showAfterScroll) {
                 this.showAfterScroll.classList.add('visible');
                 this.showAfterScroll.classList.add('slide-in');
-            }, 400);
-        }
-
-        this.section2TextTransitioned = true;
-
-        setTimeout(() => {
-            this.isAnimating = false;
-            this.canScroll = true;
-        }, 1000);
+            }
+            
+            this.section2TextTransitioned = true;
+            
+            setTimeout(() => {
+                this.canScroll = true;
+            }, 500);
+        }, 300);
     }
 
     handleSection2TextTransitionBack() {
-        if (this.isAnimating) return;
-        
-        this.isAnimating = true;
-        this.canScroll = false;
+        if (!this.section2TextTransitioned) return;
 
-        // Fade out second text
+        this.canScroll = false;
+        
         if (this.showAfterScroll) {
             this.showAfterScroll.classList.remove('visible');
             this.showAfterScroll.classList.remove('slide-in');
         }
-
-        // Fade in first text
-        if (this.fadeInText) {
-            setTimeout(() => {
-                this.fadeInText.classList.add('visible');
-            }, 400);
-        }
-
-        this.section2TextTransitioned = false;
-
+        
         setTimeout(() => {
-            this.isAnimating = false;
-            this.canScroll = true;
-        }, 1000);
+            this.section2TextTransitioned = false;
+            
+            setTimeout(() => {
+                this.canScroll = true;
+            }, 300);
+        }, 300);
     }
 
     resetSection2() {
-        // Reset section 2 to first text state
-        if (this.showAfterScroll) {
-            this.showAfterScroll.classList.remove('visible');
-            this.showAfterScroll.classList.remove('slide-in');
-        }
-        
-        // Show the first text again
-        if (this.fadeInText) {
-            this.fadeInText.classList.add('visible');
-        }
-        
         this.section2TextTransitioned = false;
+        if (this.fadeInText) {
+            this.fadeInText.classList.remove('visible', 'slide-in');
+        }
+        if (this.showAfterScroll) {
+            this.showAfterScroll.classList.remove('visible', 'slide-in');
+        }
     }
 
     // ==========================================
-    // SECTION 3: Setup and Animations
+    // SECTION 3: Setup and Horizontal Scroll
     // ==========================================
     setupSection3Elements() {
-        this.cardContainer = this.sections[3]?.querySelector('.scrollX-card-container');
-        this.cards = this.sections[3]?.querySelectorAll('.scrollX-card');
-        this.heading = this.sections[3]?.querySelector('.heading h1');
-        
-        // Calculate max scroll distance
-        if (this.cardContainer) {
-            const containerWidth = this.cardContainer.scrollWidth;
-            const viewportWidth = window.innerWidth;
-            this.maxTranslateX = -(containerWidth - viewportWidth + 100);
-        }
+        this.scrollXContainer = this.sections[3]?.querySelector('.scrollX-card-container');
+        this.scrollXCards = this.sections[3]?.querySelectorAll('.scrollX-card');
+        this.section3Heading = this.sections[3]?.querySelector('.heading h1');
     }
 
     triggerSection3Animations() {
-        if (this.heading && !this.heading.classList.contains('reveal')) {
-            this.heading.classList.add('reveal');
-
+        if (this.section3Heading) {
             setTimeout(() => {
-                this.cards?.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('reveal');
-                    }, index * 150);
-                });
-            }, 300);
+                this.section3Heading.classList.add('reveal');
+            }, 200);
+        }
+
+        // Trigger first two cards immediately
+        if (this.scrollXCards && this.scrollXCards.length > 0) {
+            setTimeout(() => {
+                this.scrollXCards[0]?.classList.add('reveal');
+            }, 400);
+            
+            setTimeout(() => {
+                this.scrollXCards[1]?.classList.add('reveal');
+            }, 600);
         }
     }
 
     handleSection3Scroll() {
-        if (this.isAnimating) return;
-        
-        this.isAnimating = true;
         this.canScroll = false;
-
         this.section3ScrollProgress++;
+
+        const cardIndex = this.section3ScrollProgress + 1; // +1 because first 2 cards are already shown
+        const card = this.scrollXCards[cardIndex];
         
-        const progress = this.section3ScrollProgress / this.section3MaxScrolls;
-        const translateX = this.maxTranslateX * progress;
-        
-        if (this.cardContainer) {
-            this.cardContainer.style.transform = `translateX(${translateX}px)`;
+        if (card && this.scrollXContainer) {
+            card.classList.add('reveal');
+            
+            const cardWidth = card.offsetWidth;
+            const gap = 32; // 2rem gap
+            const scrollAmount = (cardWidth + gap) * this.section3ScrollProgress;
+            
+            this.scrollXContainer.style.transform = `translateX(-${scrollAmount}px)`;
         }
 
         setTimeout(() => {
-            this.isAnimating = false;
             this.canScroll = true;
-        }, 400);
+        }, 600);
     }
 
     handleSection3ScrollBack() {
-        if (this.isAnimating) return;
-        
-        this.isAnimating = true;
         this.canScroll = false;
-
         this.section3ScrollProgress--;
-        
-        const progress = this.section3ScrollProgress / this.section3MaxScrolls;
-        const translateX = this.maxTranslateX * progress;
-        
-        if (this.cardContainer) {
-            this.cardContainer.style.transform = `translateX(${translateX}px)`;
+
+        if (this.scrollXContainer) {
+            const card = this.scrollXCards[0];
+            const cardWidth = card.offsetWidth;
+            const gap = 32;
+            const scrollAmount = (cardWidth + gap) * this.section3ScrollProgress;
+            
+            this.scrollXContainer.style.transform = `translateX(-${scrollAmount}px)`;
         }
 
         setTimeout(() => {
-            this.isAnimating = false;
             this.canScroll = true;
-        }, 400);
+        }, 600);
     }
 
     resetSection3() {
-        // Reset horizontal scroll position
         this.section3ScrollProgress = 0;
-        if (this.cardContainer) {
-            this.cardContainer.style.transform = 'translateX(0px)';
+        if (this.scrollXContainer) {
+            this.scrollXContainer.style.transform = 'translateX(0)';
+        }
+        // Remove reveal class from cards 3, 4, 5 only
+        if (this.scrollXCards) {
+            for (let i = 2; i < this.scrollXCards.length; i++) {
+                this.scrollXCards[i].classList.remove('reveal');
+            }
         }
     }
 
     // ==========================================
-    // SECTION 4: Background Reveal
+    // SECTION 4: Setup and Animations
     // ==========================================
     setupSection4Elements() {
-        // Remove reveal class initially to ensure animation is ready
-        if (this.sections[4]) {
-            this.sections[4].classList.remove('reveal');
-        }
+        this.section4BgImage = this.sections[4]?.querySelector('.section-4-bg-image');
     }
 
     triggerSection4Animations() {
-        // Only trigger animation if it hasn't played yet
-        if (this.sections[4] && !this.section4AnimationPlayed) {
-            // Small delay to ensure animation triggers properly
+        // Only play animation once
+        if (this.section4AnimationPlayed) return;
+        
+        if (this.section4BgImage) {
             setTimeout(() => {
                 this.sections[4].classList.add('reveal');
-                this.section4AnimationPlayed = true; // Mark as played, never reset
-            }, 100);
+                this.section4AnimationPlayed = true;
+            }, 200);
         }
     }
 
     // ==========================================
-    // ANIMATED TEXT (Letter by Letter)
+    // ANIMATED TEXT SETUP (Section 4)
     // ==========================================
     setupAnimatedText() {
         const animatedTexts = document.querySelectorAll('.animated-text');
-
+        
         const textObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const spans = entry.target.querySelectorAll('span');
+                    
                     spans.forEach((span, index) => {
                         setTimeout(() => {
                             span.classList.add('revealed');
                         }, index * 30);
                     });
+
                     textObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
+        }, {
+            threshold: 0.5
+        });
 
         animatedTexts.forEach(animatedText => {
             const text = animatedText.textContent;
@@ -730,13 +709,21 @@ if ('ontouchstart' in window) {
 }
 
 // ==========================================
-// RESIZE HANDLER
+// IMPROVED RESIZE HANDLER - NO RELOAD
 // ==========================================
 
+let currentDeviceType = isMobile() ? 'mobile' : 'desktop';
 let resizeTimer;
+
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-        location.reload();
+        const newDeviceType = isMobile() ? 'mobile' : 'desktop';
+        
+        // Only reload if device type actually changed (mobile <-> desktop)
+        if (currentDeviceType !== newDeviceType) {
+            currentDeviceType = newDeviceType;
+            location.reload();
+        }
     }, 500);
 });

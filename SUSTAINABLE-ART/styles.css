@@ -91,24 +91,25 @@ a {
     margin-inline: auto;
 }
 
-.image-container-1 {
+.image-container-1,
+.image-container-2 {
     position: absolute;
-    top: 10vh;
-    right: 5vw;
     width: 15vw;
     height: 20vw;
     overflow: hidden;
     z-index: 1;
+    /* Hide images initially until animation starts */
+    clip-path: inset(0 0 100% 0);
+}
+
+.image-container-1 {
+    top: 10vh;
+    right: 5vw;
 }
 
 .image-container-2 {
-    position: absolute;
     bottom: 10vh;
     left: 5vw;
-    width: 15vw;
-    height: 20vw;
-    overflow: hidden;
-    z-index: 1;
 }
 
 .image-container-1 img,
@@ -178,6 +179,8 @@ a {
     top: 12vh;
     left: 50%;
     transform: translateX(-50%);
+    /* Hide image initially until animation starts */
+    clip-path: inset(0 100% 0 0);
 }
 
 .section-2 .image-container-3 img {
@@ -284,7 +287,7 @@ a {
     flex-shrink: 0;
 }
 
-/* Background image styling */
+/* Background image styling - HIDDEN INITIALLY */
 .card-bg-image {
     position: absolute;
     top: 0;
@@ -293,6 +296,7 @@ a {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    /* Hide card images initially until animation starts */
     clip-path: inset(0 0 100% 0);
 }
 
@@ -370,7 +374,7 @@ a {
     overflow: hidden;
 }
 
-/* Background image as HTML img element */
+/* Background image as HTML img element - HIDDEN INITIALLY */
 .section-4-bg-image {
     position: absolute;
     top: 0;
@@ -379,6 +383,7 @@ a {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    /* Hide background image initially until animation starts */
     clip-path: inset(0 0 100% 0);
 }
 
@@ -592,7 +597,7 @@ a {
         text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
     }
 
-    /* Section 2 - Mobile: Stack both texts */
+    /* Section 2 - Mobile: Stack both texts and show image */
     .section-2 {
         height: auto;
         min-height: 100vh;
@@ -606,6 +611,8 @@ a {
         left: auto;
         transform: none;
         margin: 2rem auto;
+        /* Show image on mobile immediately */
+        clip-path: inset(0 0 0 0);
     }
 
     .section-2 .text-container {
@@ -664,7 +671,12 @@ a {
         scroll-snap-align: center;
     }
 
-    /* Section 4 - Mobile */
+    /* Section 4 - Mobile: Show background immediately */
+    .section-4-bg-image {
+        /* Show background on mobile immediately */
+        clip-path: inset(0 0 0 0);
+    }
+
     .section-4 .section-content {
         padding: 1.5rem;
     }
